@@ -1,0 +1,61 @@
+# EvalForge
+
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
+![YAML](https://img.shields.io/badge/config-YAML-CB171E?logo=yaml&logoColor=white)
+![CI Gate](https://img.shields.io/badge/CI-eval%20gate-blue?logo=githubactions&logoColor=white)
+![tests](https://img.shields.io/badge/tests-4%20passing-brightgreen)
+![license](https://img.shields.io/badge/license-MIT-green)
+
+**Unit tests for your prompts. A CI gate for LLM quality.**
+
+Teams ship LLM/prompt changes and silently regress quality. EvalForge defines graded eval sets in YAML, scores your agent on every commit, and **fails the build** if quality drops below a threshold — turning eval-driven development into a real CI gate.
+
+## Why it matters
+
+LLM apps have no "unit tests." A prompt tweak that helps one case can quietly break ten others. EvalForge makes quality a **first-class, versioned, enforced** artifact.
+
+## Quickstart
+
+```bash
+pip install -r requirements.txt
+python -m evalforge.cli examples/eval_set.yaml --target examples.demo_target:target
+```
+
+Exit code is `0` if the aggregate score meets the threshold, non-zero otherwise — drop it straight into CI.
+
+## Define an eval set (YAML)
+
+```yaml
+threshold: 0.75
+cases:
+  - id: refund-window
+    input: "How many days do I have to request a refund?"
+    scorer: contains
+    expected: "30 days"
+    weight: 2.0
+    pass_score: 1.0
+```
+
+**Scorers:** `exact_match`, `contains`, `regex`, `semantic` (extensible — add LLM-as-judge, embedding cosine, etc.).
+
+## Point it at your agent
+
+Any `module:function` that maps `str -> str`:
+
+```bash
+python -m evalforge.cli my_evals.yaml --target myapp.agent:answer --threshold 0.85
+```
+
+## CI: catch regressions before merge
+
+The included GitHub Action runs the eval gate on every PR. See `tests/test_evalforge.py::test_regressed_target_fails_gate` for a demonstration of a regression being caught.
+
+## Part of [parag-labs](https://github.com/parag-labs)
+
+Small, focused tools for building AI systems you can trust.
+
+LedgerRAG · **EvalForge** · AgentGuard · PromptShield · DeployKit
+
+## License
+
+MIT
