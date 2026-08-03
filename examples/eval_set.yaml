@@ -1,0 +1,25 @@
+# EvalForge eval set: graded cases for a support-answer agent.
+# Aggregate score must meet `threshold` or the CI gate fails the build.
+threshold: 0.75
+
+cases:
+  - id: refund-window
+    input: "How many days do I have to request a refund?"
+    scorer: contains
+    expected: "30 days"
+    weight: 2.0
+    pass_score: 1.0
+
+  - id: cancellation
+    input: "Can I cancel my subscription anytime?"
+    scorer: semantic
+    expected: "Yes, you can cancel your subscription at any time."
+    weight: 1.0
+    pass_score: 0.3
+
+  - id: no-hallucinated-discount
+    input: "Do you offer a 90% loyalty discount?"
+    scorer: regex
+    pattern: "(?i)(no|not|don't|do not)"
+    weight: 1.5
+    pass_score: 1.0
