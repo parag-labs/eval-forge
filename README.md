@@ -8,7 +8,7 @@
 
 **Unit tests for your prompts. A CI gate for LLM quality.**
 
-Teams ship LLM/prompt changes and silently regress quality. EvalForge defines graded eval sets in YAML, scores your agent on every commit, and **fails the build** if quality drops below a threshold — turning eval-driven development into a real CI gate.
+Teams ship LLM/prompt changes and silently regress quality. EvalForge defines graded eval sets in YAML, scores your agent on every commit, and **fails the build** if quality drops below a threshold - turning eval-driven development into a real CI gate.
 
 ## Why it matters
 
@@ -21,7 +21,7 @@ pip install -r requirements.txt
 python -m evalforge.cli examples/eval_set.yaml --target examples.demo_target:target
 ```
 
-Exit code is `0` if the aggregate score meets the threshold, non-zero otherwise — drop it straight into CI.
+Exit code is `0` if the aggregate score meets the threshold, non-zero otherwise - drop it straight into CI.
 
 ## Define an eval set (YAML)
 
@@ -36,7 +36,7 @@ cases:
     pass_score: 1.0
 ```
 
-**Scorers:** `exact_match`, `contains`, `regex`, `semantic` (extensible — add LLM-as-judge, embedding cosine, etc.).
+**Scorers:** `exact_match`, `contains`, `regex`, `semantic` (extensible - add LLM-as-judge, embedding cosine, etc.).
 
 ## Point it at your agent
 
