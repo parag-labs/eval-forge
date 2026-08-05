@@ -3,7 +3,7 @@
 from pathlib import Path
 
 from evalforge.runner import run_eval
-from evalforge.scorers import exact_match, contains, semantic_similarity, regex_match
+from evalforge.scorers import contains, exact_match, regex_match, semantic_similarity
 from examples.demo_target import target
 
 EVAL_SET = Path(__file__).parent.parent / "examples" / "eval_set.yaml"
