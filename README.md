@@ -50,6 +50,12 @@ python -m evalforge.cli my_evals.yaml --target myapp.agent:answer --threshold 0.
 
 The included GitHub Action runs the eval gate on every PR. See `tests/test_evalforge.py::test_regressed_target_fails_gate` for a demonstration of a regression being caught.
 
+## Design notes
+
+- **[DESIGN.md](DESIGN.md)** - why scoring is deterministic-first, the two-threshold
+  (per-case + weighted aggregate) design, why the gate is just an exit code, and the
+  non-goals (it's a gate, not a scoring model or a dataset tool).
+
 ## Part of [parag-labs](https://github.com/parag-labs)
 
 Small, focused tools for building AI systems you can trust.
