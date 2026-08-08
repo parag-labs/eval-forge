@@ -23,6 +23,10 @@ Goals:
 3. Support **weighted, per-case pass bars** so not every check counts equally and one
    flaky case can't sink a good change on its own.
 
+![CI gate pipeline](docs/diagrams/ci-gate-pipeline.png)
+
+*(Source: [`docs/diagrams/ci-gate-pipeline.excalidraw`](docs/diagrams/ci-gate-pipeline.excalidraw) - editable in [excalidraw](https://aka.ms/excalidraw).)*
+
 ## Key design decisions
 
 **Scoring is pluggable, and the built-ins are deterministic.** A case names a scorer
