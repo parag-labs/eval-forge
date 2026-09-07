@@ -25,7 +25,7 @@ Goals:
 
 ![CI gate pipeline](docs/diagrams/ci-gate-pipeline.png)
 
-*(Source: [`docs/diagrams/ci-gate-pipeline.excalidraw`](docs/diagrams/ci-gate-pipeline.excalidraw) - editable in [excalidraw](https://aka.ms/excalidraw).)*
+*(The same diagram renders inline as Mermaid in the [README](README.md#how-it-works); this PNG is a static export.)*
 
 ## Key design decisions
 
