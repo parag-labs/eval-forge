@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+
+# .NET
+bin/
+obj/
+
+# Java
+target/
+*.class

@@ -50,6 +50,19 @@ python -m evalforge.cli my_evals.yaml --target myapp.agent:answer --threshold 0.
 
 The included GitHub Action runs the eval gate on every PR. See `tests/test_evalforge.py::test_regressed_target_fails_gate` for a demonstration of a regression being caught.
 
+## Three languages, one behavior
+
+The scorers (including a from-scratch Ratcliff/Obershelp sequence ratio matching
+Python's `difflib`), the weighted-aggregate runner, and the YAML eval-set loader —
+plus the same 4 tests, run against the same `examples/eval_set.yaml` — in each
+language. Each uses its platform's YAML library (pyyaml / YamlDotNet / SnakeYAML).
+
+| Language | Tests | Run |
+|----------|:-----:|-----|
+| Python | 4 | `pytest -q` |
+| C# (.NET 10) | 4 | `cd csharp && dotnet test` |
+| Java (17+) | 4 | `cd java && mvn test` |
+
 ## How it works
 
 ```mermaid
@@ -73,12 +86,14 @@ flowchart LR
 
 ```
 eval-forge/
-├── evalforge/
+├── evalforge/            the runner, CLI, and scorers (Python)
 │   ├── runner.py       # loads a YAML eval set, runs each case, aggregates the score
 │   ├── cli.py          # `python -m evalforge.cli` — the CI entry point (exit code = the gate)
 │   └── scorers/        # exact_match, contains, regex, semantic — add your own here
+├── csharp/               the same scorers + runner, ported to .NET 10 (xUnit + YamlDotNet)
+├── java/                 the same, in Java 17+ (JUnit / Maven + SnakeYAML)
 ├── examples/
-│   ├── eval_set.yaml   # a worked example eval set
+│   ├── eval_set.yaml   # a worked example eval set (shared by all three test suites)
 │   └── demo_target.py  # a str -> str target to score against
 ├── tests/              # incl. a regression that proves the gate fails on a worse target
 └── DESIGN.md           # deterministic-first scoring, the two-threshold model, the non-goals
