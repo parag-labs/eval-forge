@@ -50,6 +50,25 @@ python -m evalforge.cli my_evals.yaml --target myapp.agent:answer --threshold 0.
 
 The included GitHub Action runs the eval gate on every PR. See `tests/test_evalforge.py::test_regressed_target_fails_gate` for a demonstration of a regression being caught.
 
+## How it works
+
+```mermaid
+flowchart LR
+  classDef proc fill:#4a90e2,stroke:#2c5aa0,color:#fff
+  classDef good fill:#27ae60,stroke:#1e8449,color:#fff
+  classDef bad fill:#e74c3c,stroke:#c0392b,color:#fff
+  classDef work fill:#8e44ad,stroke:#6c3483,color:#fff
+  ES["eval set<br/>inputs + per-case scorer + pass bar"]:::proc
+  RUN["run against the target<br/>(prompt + model)"]:::work
+  SCORE["score each case<br/>exact / regex (deterministic)<br/>LLM-as-judge (opt-in)"]:::work
+  AGG{"weighted aggregate<br/>vs per-case bars"}:::work
+  PASS["pass = exit 0<br/>(deploy proceeds)"]:::good
+  FAIL["fail = non-zero exit<br/>(deploy blocked)"]:::bad
+  ES --> RUN --> SCORE --> AGG
+  AGG -->|meets bar| PASS
+  AGG -->|below bar| FAIL
+```
+
 ## Layout
 
 ```
