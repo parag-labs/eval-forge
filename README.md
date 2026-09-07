@@ -54,19 +54,19 @@ The included GitHub Action runs the eval gate on every PR. See `tests/test_evalf
 
 ```mermaid
 flowchart LR
-  classDef proc fill:#4a90e2,stroke:#2c5aa0,color:#fff
-  classDef good fill:#27ae60,stroke:#1e8449,color:#fff
-  classDef bad fill:#e74c3c,stroke:#c0392b,color:#fff
-  classDef work fill:#8e44ad,stroke:#6c3483,color:#fff
-  ES["eval set<br/>inputs + per-case scorer + pass bar"]:::proc
-  RUN["run against the target<br/>(prompt + model)"]:::work
-  SCORE["score each case<br/>exact / regex (deterministic)<br/>LLM-as-judge (opt-in)"]:::work
-  AGG{"weighted aggregate<br/>vs per-case bars"}:::work
-  PASS["pass = exit 0<br/>(deploy proceeds)"]:::good
-  FAIL["fail = non-zero exit<br/>(deploy blocked)"]:::bad
+  classDef proc fill:#eff6ff,stroke:#3b82f6,color:#1e3a8a
+  classDef good fill:#f0fdf4,stroke:#22c55e,color:#14532d
+  classDef bad fill:#fef2f2,stroke:#ef4444,color:#7f1d1d
+  classDef work fill:#faf5ff,stroke:#a855f7,color:#581c87
+  ES["Eval set"]:::proc
+  RUN["Run target"]:::work
+  SCORE["Score cases"]:::work
+  AGG{"Meets bar?"}:::work
+  PASS["Deploy"]:::good
+  FAIL["Block"]:::bad
   ES --> RUN --> SCORE --> AGG
-  AGG -->|meets bar| PASS
-  AGG -->|below bar| FAIL
+  AGG -->|yes| PASS
+  AGG -->|no| FAIL
 ```
 
 ## Layout
