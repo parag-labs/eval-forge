@@ -50,6 +50,21 @@ python -m evalforge.cli my_evals.yaml --target myapp.agent:answer --threshold 0.
 
 The included GitHub Action runs the eval gate on every PR. See `tests/test_evalforge.py::test_regressed_target_fails_gate` for a demonstration of a regression being caught.
 
+## Layout
+
+```
+eval-forge/
+├── evalforge/
+│   ├── runner.py       # loads a YAML eval set, runs each case, aggregates the score
+│   ├── cli.py          # `python -m evalforge.cli` — the CI entry point (exit code = the gate)
+│   └── scorers/        # exact_match, contains, regex, semantic — add your own here
+├── examples/
+│   ├── eval_set.yaml   # a worked example eval set
+│   └── demo_target.py  # a str -> str target to score against
+├── tests/              # incl. a regression that proves the gate fails on a worse target
+└── DESIGN.md           # deterministic-first scoring, the two-threshold model, the non-goals
+```
+
 ## Design notes
 
 - **[DESIGN.md](DESIGN.md)** - why scoring is deterministic-first, the two-threshold
