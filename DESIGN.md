@@ -25,7 +25,7 @@ Goals:
 
 ![CI gate pipeline](docs/diagrams/ci-gate-pipeline.png)
 
-*(The same diagram renders inline as Mermaid in the [README](README.md#how-it-works); this PNG is a static export.)*
+*(The [README](README.md#how-it-works) shows the same flow inline as Mermaid; the PNG above is the detailed view - the per-case scoring loop, the weighted aggregate, and the two independent thresholds that decide the exit code.)*
 
 ## Key design decisions
 
