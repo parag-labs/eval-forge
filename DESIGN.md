@@ -27,6 +27,13 @@ Goals:
 
 *(The [README](README.md#how-it-works) shows the same flow inline as Mermaid; the PNG above is the detailed view - the per-case scoring loop, the weighted aggregate, and the two independent thresholds that decide the exit code.)*
 
+<details>
+<summary>Before the redraw - the earlier version of this diagram</summary>
+
+![CI gate pipeline, before the redraw](docs/diagrams/ci-gate-pipeline-v1.png)
+
+</details>
+
 ## Key design decisions
 
 **Scoring is pluggable, and the built-ins are deterministic.** A case names a scorer
