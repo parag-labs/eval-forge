@@ -3,7 +3,7 @@
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
 ![YAML](https://img.shields.io/badge/config-YAML-CB171E?logo=yaml&logoColor=white)
 ![CI Gate](https://img.shields.io/badge/CI-eval%20gate-blue?logo=githubactions&logoColor=white)
-![tests](https://img.shields.io/badge/tests-4%20passing-brightgreen)
+![tests](https://img.shields.io/badge/tests-175%20passing-brightgreen)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
 **Unit tests for your prompts. A CI gate for LLM quality.**
@@ -50,18 +50,34 @@ python -m evalforge.cli my_evals.yaml --target myapp.agent:answer --threshold 0.
 
 The included GitHub Action runs the eval gate on every PR. See `tests/test_evalforge.py::test_regressed_target_fails_gate` for a demonstration of a regression being caught.
 
-## Three languages, one behavior
+## Six languages, one behavior
 
 The scorers (including a from-scratch Ratcliff/Obershelp sequence ratio matching
 Python's `difflib`), the weighted-aggregate runner, and the YAML eval-set loader —
-plus the same 4 tests, run against the same `examples/eval_set.yaml` — in each
-language. Each uses its platform's YAML library (pyyaml / YamlDotNet / SnakeYAML).
+run against the same `examples/eval_set.yaml` — in each language. Each uses its
+platform's YAML library (pyyaml / YamlDotNet / SnakeYAML / gopkg.in/yaml.v3 /
+serde_yaml / the `yaml` npm package).
+
+Two subtleties are pinned down by the ports and their tests:
+
+- **`semantic` sequence ratio.** `difflib.SequenceMatcher(...).ratio()` is
+  reimplemented from scratch (the `b2j` index, the `find_longest_match` DP, and
+  the recursive block sum) so every language reproduces Python's score to the
+  fourth decimal. Autojunk is intentionally not applied — it only kicks in for
+  200+ element sequences, far longer than anything scored here.
+- **`regex` inline flags.** Python `re`, Go's RE2, and the Rust `regex` crate all
+  accept a leading `(?i)` prefix directly. JavaScript's `RegExp` does **not**, so
+  the TypeScript port parses a leading inline-flag group and maps `i`/`m`/`s` to
+  native `RegExp` flags before matching.
 
 | Language | Tests | Run |
 |----------|:-----:|-----|
 | Python | 4 | `pytest -q` |
 | C# (.NET 10) | 4 | `cd csharp && dotnet test` |
 | Java (17+) | 4 | `cd java && mvn test` |
+| Go (1.22+) | 36 | `cd go && go test ./...` |
+| Rust | 42 | `cd rust && cargo test` |
+| TypeScript | 45 | `cd ts && npm test` |
 
 ## How it works
 
@@ -92,8 +108,11 @@ eval-forge/
 │   └── scorers/        # exact_match, contains, regex, semantic — add your own here
 ├── csharp/               the same scorers + runner, ported to .NET 10 (xUnit + YamlDotNet)
 ├── java/                 the same, in Java 17+ (JUnit / Maven + SnakeYAML)
+├── go/                   the same, in Go 1.22+ (testing + gopkg.in/yaml.v3)
+├── rust/                 the same, in Rust (cargo test + serde_yaml + regex)
+├── ts/                   the same, in TypeScript (vitest + the yaml package)
 ├── examples/
-│   ├── eval_set.yaml   # a worked example eval set (shared by all three test suites)
+│   ├── eval_set.yaml   # a worked example eval set (shared by every test suite)
 │   └── demo_target.py  # a str -> str target to score against
 ├── tests/              # incl. a regression that proves the gate fails on a worse target
 └── DESIGN.md           # deterministic-first scoring, the two-threshold model, the non-goals
