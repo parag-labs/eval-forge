@@ -34,11 +34,7 @@ pub fn contains(output: &str, expected: &str) -> f64 {
 /// the Python reference raising `re.error`.
 pub fn regex_match(output: &str, pattern: &str) -> f64 {
     let re = Regex::new(pattern).expect("invalid regex pattern");
-    if re.is_match(output) {
-        1.0
-    } else {
-        0.0
-    }
+    if re.is_match(output) { 1.0 } else { 0.0 }
 }
 
 /// A lightweight, dependency-free proxy for semantic closeness: the mean of

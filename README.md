@@ -1,6 +1,6 @@
 # EvalForge
 
-![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.15-3776AB?logo=python&logoColor=white)
 ![YAML](https://img.shields.io/badge/config-YAML-CB171E?logo=yaml&logoColor=white)
 ![CI Gate](https://img.shields.io/badge/CI-eval%20gate-blue?logo=githubactions&logoColor=white)
 ![tests](https://img.shields.io/badge/tests-175%20passing-brightgreen)
@@ -70,14 +70,17 @@ Two subtleties are pinned down by the ports and their tests:
   the TypeScript port parses a leading inline-flag group and maps `i`/`m`/`s` to
   native `RegExp` flags before matching.
 
-| Language | Tests | Run |
-|----------|:-----:|-----|
-| Python | 4 | `pytest -q` |
-| C# (.NET 10) | 4 | `cd csharp && dotnet test` |
-| Java (17+) | 4 | `cd java && mvn test` |
-| Go (1.22+) | 36 | `cd go && go test ./...` |
-| Rust | 42 | `cd rust && cargo test` |
-| TypeScript | 45 | `cd ts && npm test` |
+| Language | Toolchain | Tests | Run |
+|----------|-----------|:-----:|-----|
+| Python | 3.15 (`.python-version`) | 4 | `pytest -q` |
+| C# | .NET 10 SDK (`csharp/global.json`) | 4 | `cd csharp && dotnet test` |
+| Java | JDK 25 + Maven 3.9 | 4 | `cd java && mvn test` |
+| Go | 1.27 (`go/go.mod`) | 36 | `cd go && go test ./...` |
+| Rust | 1.99+, edition 2024 | 42 | `cd rust && cargo test` |
+| TypeScript | Node 26 LTS (`ts/.nvmrc`) | 45 | `cd ts && npm test` |
+
+CI (`.github/workflows/tests.yml`) reads the same version files, so bumping a
+toolchain is a one-file change.
 
 ## How it works
 
@@ -107,8 +110,8 @@ eval-forge/
 │   ├── cli.py          # `python -m evalforge.cli` — the CI entry point (exit code = the gate)
 │   └── scorers/        # exact_match, contains, regex, semantic — add your own here
 ├── csharp/               the same scorers + runner, ported to .NET 10 (xUnit + YamlDotNet)
-├── java/                 the same, in Java 17+ (JUnit / Maven + SnakeYAML)
-├── go/                   the same, in Go 1.22+ (testing + gopkg.in/yaml.v3)
+├── java/                 the same, in Java 25 (JUnit / Maven + SnakeYAML)
+├── go/                   the same, in Go 1.27 (testing + gopkg.in/yaml.v3)
 ├── rust/                 the same, in Rust (cargo test + serde_yaml + regex)
 ├── ts/                   the same, in TypeScript (vitest + the yaml package)
 ├── examples/

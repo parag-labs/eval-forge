@@ -9,8 +9,8 @@ pub mod runner;
 pub mod scorers;
 
 pub use demo_target::demo_target;
-pub use runner::{run_eval, CaseResult, EvalReport};
+pub use runner::{CaseResult, EvalReport, run_eval};
 pub use scorers::{
-    contains, exact_match, get_scorer, is_known_scorer, regex_match, round4, scorer_names,
-    semantic_similarity, Scorer, SCORER_NAMES,
+    SCORER_NAMES, Scorer, contains, exact_match, get_scorer, is_known_scorer, regex_match, round4,
+    scorer_names, semantic_similarity,
 };

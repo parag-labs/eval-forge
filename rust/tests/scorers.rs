@@ -1,6 +1,6 @@
 use eval_forge::{
-    contains, exact_match, get_scorer, is_known_scorer, regex_match, round4, scorer_names,
-    semantic_similarity, SCORER_NAMES,
+    SCORER_NAMES, contains, exact_match, get_scorer, is_known_scorer, regex_match, round4,
+    scorer_names, semantic_similarity,
 };
 
 fn approx(a: f64, b: f64) {
