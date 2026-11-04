@@ -109,7 +109,7 @@ eval-forge/
 │   ├── runner.py       # loads a YAML eval set, runs each case, aggregates the score
 │   ├── cli.py          # `python -m evalforge.cli` — the CI entry point (exit code = the gate)
 │   └── scorers/        # exact_match, contains, regex, semantic — add your own here
-├── csharp/               the same scorers + runner, ported to .NET 10 (xUnit + YamlDotNet)
+├── csharp/               the same scorers + runner, ported to .NET 10 (xUnit v3 + YamlDotNet)
 ├── java/                 the same, in Java 25 (JUnit / Maven + SnakeYAML)
 ├── go/                   the same, in Go 1.27 (testing + gopkg.in/yaml.v3)
 ├── rust/                 the same, in Rust (cargo test + serde_yaml + regex)
